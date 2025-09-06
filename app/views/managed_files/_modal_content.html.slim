@@ -1,0 +1,56 @@
+= turbo_frame_tag "modal" do
+  .modal-backdrop.fade.show
+  .modal.fade.show[style="display: block;"]
+    .modal-dialog.modal-lg.modal-dialog-scrollable
+      .modal-content
+        = form_with model: @managed_file, url: managed_file_path(@managed_file), method: :patch do |form|
+          .modal-header
+            h5.modal-title= @managed_file.name
+            = link_to "×", root_path, class: "btn-close"
+          .modal-body
+
+            h6.mt-2 Vista Previa
+            .preview-container.border.p-2.bg-light.text-center.mb-3
+              - if @managed_file.file_type.in?(['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'svg', 'ico'])
+                = image_tag content_managed_file_path(@managed_file), class: "img-fluid", style: "max-height: 250px;"
+
+              // =======================================================
+              // INICIO DEL CAMBIO: AÑADIMOS LA LÓGICA PARA PDFS
+              // =======================================================
+              - elsif @managed_file.file_type == 'pdf'
+                // 1. Activamos nuestro controlador Stimulus ('pdf-viewer')
+                // 2. Le pasamos la URL del archivo a través de data-pdf-viewer-url-value
+                div[data-controller="pdf-viewer" data-pdf-viewer-url-value=content_managed_file_path(@managed_file)]
+                  // 3. Creamos el 'canvas', el lienzo donde se dibujará el PDF
+                  canvas[data-pdf-viewer-target="canvas"]
+              // =======================================================
+              // FIN DEL CAMBIO
+              // =======================================================
+
+              - elsif @managed_file.file_type.in?(['txt', 'md', 'rb', 'slim', 'js', 'scss', 'css', 'html', 'yml', 'data', 'names', 'url', 'm'])
+                pre.text-start.p-2 style="white-space: pre-wrap; word-wrap: break-word; max-height: 250px; overflow-y: auto;"
+                  code
+                    = File.read(@managed_file.path).truncate(2000)
+              - else
+                p.text-muted.m-2 No hay vista previa disponible para archivos '#{@managed_file.file_type}'.
+
+            .form-check.mb-3
+              = form.check_box :favorite, class: "form-check-input"
+              = form.label :favorite, "Favorito", class: "form-check-label ms-2"
+
+            .mb-3
+              = form.label :notes, "Notas Personales", class: "form-label"
+              = form.text_area :notes, class: "form-control", rows: 3, placeholder: "Agrega notas sobre este archivo..."
+
+            hr
+
+            h6 Temas
+            .d-flex.flex-wrap.gap-3
+              = form.collection_check_boxes :theme_ids, @themes, :id, :name do |b|
+                .form-check.me-3
+                  = b.check_box class: 'form-check-input'
+                  = b.label class: 'form-check-label'
+
+          .modal-footer
+            = link_to "Cerrar", root_path, class: "btn btn-secondary"
+            = form.submit "Guardar Cambios", class: "btn btn-primary"

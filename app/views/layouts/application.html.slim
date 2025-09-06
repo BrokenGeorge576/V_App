@@ -1,0 +1,61 @@
+doctype html
+html
+  head
+    title= content_for(:title) || "Vicky App"
+    meta name="viewport" content="width=device-width,initial-scale=1"
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
+    = javascript_importmap_tags
+
+    / =======================================================
+    / INICIO: ESTILOS CSS PARA FORZAR EL SCROLL DEL MODAL
+    / =======================================================
+    style
+      |
+        /* Oculta el scroll de la página principal cuando el modal está abierto */
+        body.modal-open {
+          overflow: hidden;
+        }
+    / =======================================================
+    / FIN: ESTILOS CSS
+    / =======================================================
+
+  body
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+      .container-fluid
+        = link_to "Vicky App", root_path, class: "navbar-brand"
+        
+        .collapse.navbar-collapse
+          // Enlaces de navegación a la izquierda
+          ul.navbar-nav.me-auto.mb-2.mb-lg-0
+            li.nav-item
+              = link_to "Gestionar Temas", themes_path, class: "nav-link"
+          
+          // Formulario de búsqueda y filtros a la derecha
+          = form_with url: root_path, method: :get, class: "d-flex align-items-center gap-2" do |form|
+            
+            = form.text_field :query, 
+                              class: "form-control form-control-sm", 
+                              placeholder: "Nombre", 
+                              value: params[:query]
+            
+            = select_tag :file_type, 
+                         options_for_select(@file_types, params[:file_type]), 
+                         prompt: "Tipo", 
+                         class: "form-select form-select-sm"
+
+            = select_tag :theme_id,
+                         options_from_collection_for_select(@themes, :id, :name, params[:theme_id]),
+                         prompt: "Tema",
+                         class: "form-select form-select-sm"
+
+            .form-check.text-white
+              = check_box_tag :favorites, '1', params[:favorites].present?, class: 'form-check-input'
+              = label_tag :favorites, 'Favoritos', class: 'form-check-label'
+
+            = form.submit "Filtrar", class: "btn btn-sm btn-outline-light"
+
+    // El contenido principal de la página se inserta aquí
+    = yield

@@ -1,0 +1,21 @@
+    // 'form_with' es el constructor de formularios de Rails.
+    // 'model: theme' le permite saber qué campos tiene el modelo.
+    = form_with(model: theme) do |form|
+      // Si hay errores de validación, los mostramos en una alerta de Bootstrap
+      - if theme.errors.any?
+        .alert.alert-danger
+          h4
+            = pluralize(theme.errors.count, "error")
+            |  prohibited this theme from being saved:
+          ul
+            - theme.errors.each do |error|
+              li= error.full_message
+
+      // Estilizamos cada campo del formulario
+      .mb-3
+        = form.label :name, class: "form-label"
+        = form.text_field :name, class: "form-control"
+
+      // Estilizamos el botón de envío
+      .actions
+        = form.submit "Guardar Tema", class: "btn btn-success"

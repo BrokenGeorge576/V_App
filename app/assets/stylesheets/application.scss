@@ -1,0 +1,14 @@
+@import "bootstrap";
+/* app/assets/stylesheets/application.scss */
+
+.checkbox-lg {
+  /* Aumenta el tamaño del input (la casilla) */
+  transform: scale(1.5); /* Aumenta 1.5 veces su tamaño normal */
+  margin-right: 0.5rem; /* Añade un poco de espacio a la derecha si es necesario */
+}
+
+/* Si el texto se ve desalineado, ajusta el label */
+.form-check-label {
+  font-size: 1.1rem; /* También puedes aumentar el tamaño de la fuente si lo deseas */
+  vertical-align: middle; /* Ayuda a alinear el texto con la checkbox grande */
+}

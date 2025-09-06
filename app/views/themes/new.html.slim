@@ -1,0 +1,6 @@
+.container.py-5
+  h1 Nuevo Tema
+  == render "form", theme: @theme
+  br
+  div
+    = link_to "Volver a temas", themes_path, class: "btn btn-secondary"

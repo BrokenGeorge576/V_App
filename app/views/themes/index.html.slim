@@ -1,0 +1,24 @@
+// .container da márgenes y centra el contenido
+// .py-5 añade padding vertical
+.container.py-5
+  // Usamos flexbox de Bootstrap para alinear el título y el botón
+  .d-flex.justify-content-between.align-items-center.mb-4
+    h1.mb-0 Temas
+    = link_to "Nuevo Tema", new_theme_path, class: "btn btn-primary"
+
+  // Envolvemos la tabla en una tarjeta para darle estilo
+  .card.shadow-sm.border-0
+    .card-body
+      // Las mismas clases que usamos en la otra tabla
+      table.table.table-striped.table-hover
+        thead
+          tr.table-dark
+            th Name
+            th[colspan="3"]
+        tbody
+          - @themes.each do |theme|
+            tr
+              td= theme.name
+              // Damos estilo a los botones/enlaces de acción
+              td= link_to "Editar", edit_theme_path(theme), class: "btn btn-sm btn-warning"
+              td= link_to "Eliminar", theme, data: { turbo_method: :delete, turbo_confirm: "Estás seguro?" }, class: "btn btn-sm btn-danger"

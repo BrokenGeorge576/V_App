@@ -1,0 +1,26 @@
+.container.py-5
+  h1.text-center.mb-4.text-primary Mis Archivos Gestionados
+
+  .card.shadow-sm.border-0
+    .card-body
+      table.table.table-striped.table-hover
+        thead
+          tr.table-dark
+            th Nombre del Archivo
+            th Tema
+            th Tipo
+            th Tamaño (bytes)
+            th Última Modificación
+        tbody
+          - @managed_files.each do |file|
+            tr
+              td
+                = link_to truncate(file.name, length: 40), managed_file_path(file), data: { turbo_stream: true }, class: "fw-bold text-decoration-none text-dark"
+              td
+                - file.themes.each do |theme|
+                  span.badge.rounded-pill.bg-primary.me-1= theme.name
+              td= file.file_type
+              td= file.size
+              td.text-muted= file.last_modified.strftime('%d/%m/%Y')
+
+= turbo_frame_tag "modal"

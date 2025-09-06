@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  path: MyString
+  file_type: MyString
+  size: 1
+  last_modified: 2025-09-05 20:34:52
+  ai_topic: MyString
+
+two:
+  name: MyString
+  path: MyString
+  file_type: MyString
+  size: 1
+  last_modified: 2025-09-05 20:34:52
+  ai_topic: MyString

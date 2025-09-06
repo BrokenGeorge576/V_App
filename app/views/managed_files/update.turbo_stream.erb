@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "managed_file_<%= @managed_file.id %>" do %>
+  <%= render @managed_file %>
+<% end %>
+
+<%= turbo_stream.remove "modal" %>
