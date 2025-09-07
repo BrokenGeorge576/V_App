@@ -1,3 +1,4 @@
+// Reemplaza el contenido completo de este archivo
 .container.py-5
   h1.text-center.mb-4.text-primary Mis Archivos Gestionados
 
@@ -13,9 +14,9 @@
             th Última Modificación
         tbody
           - @managed_files.each do |file|
-            tr
+            tr[id=dom_id(file)]
               td
-                = link_to truncate(file.name, length: 40), managed_file_path(file), data: { turbo_stream: true }, class: "fw-bold text-decoration-none text-dark"
+                = link_to truncate(file.name, length: 40), file, class: "fw-bold text-decoration-none text-dark"
               td
                 - file.themes.each do |theme|
                   span.badge.rounded-pill.bg-primary.me-1= theme.name

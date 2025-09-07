@@ -11,17 +11,6 @@ class ManagedFilesController < ApplicationController
   def show
     @managed_file = ManagedFile.find(params[:id])
     @themes = Theme.all 
-
-    respond_to do |format|
-      format.html
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.update(
-          "modal",
-          partial: "managed_files/modal_content",
-          locals: { managed_file: @managed_file, themes: @themes }
-        )
-      end
-    end
   end
 
   def update
