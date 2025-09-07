@@ -27,10 +27,8 @@ class ManagedFilesController < ApplicationController
   def update
     @managed_file = ManagedFile.find(params[:id])
     if @managed_file.update(managed_file_params)
-      # Si la actualización es exitosa, redirige para recargar la página
       redirect_to root_path, notice: "Archivo actualizado con éxito."
     else
-      # Si falla, simplemente renderiza el modal con los errores (sin recargar)
       render :show
     end
   end

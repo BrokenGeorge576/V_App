@@ -2,7 +2,7 @@ namespace :files do
   desc "Escanea un directorio y guarda la información en la base de datos"
 
   task scan_and_save: :environment do
-    target_directory = '/mnt/c/Users/cr7-r/OneDrive/Documentos/Octavo' 
+    target_directory = 'C:/Users/cr7-r/OneDrive/Documentos/Memoria vieja' 
 
     puts "=================================================="
     puts "Iniciando escaneo y guardado en: #{target_directory}"

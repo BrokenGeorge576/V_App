@@ -13,19 +13,12 @@
             .preview-container.border.p-2.bg-light.text-center.mb-3
               - if @managed_file.file_type.in?(['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'svg', 'ico'])
                 = image_tag content_managed_file_path(@managed_file), class: "img-fluid", style: "max-height: 250px;"
-
-              // =======================================================
-              // INICIO DEL CAMBIO: AÑADIMOS LA LÓGICA PARA PDFS
-              // =======================================================
               - elsif @managed_file.file_type == 'pdf'
                 // 1. Activamos nuestro controlador Stimulus ('pdf-viewer')
                 // 2. Le pasamos la URL del archivo a través de data-pdf-viewer-url-value
                 div[data-controller="pdf-viewer" data-pdf-viewer-url-value=content_managed_file_path(@managed_file)]
                   // 3. Creamos el 'canvas', el lienzo donde se dibujará el PDF
                   canvas[data-pdf-viewer-target="canvas"]
-              // =======================================================
-              // FIN DEL CAMBIO
-              // =======================================================
 
               - elsif @managed_file.file_type.in?(['txt', 'md', 'rb', 'slim', 'js', 'scss', 'css', 'html', 'yml', 'data', 'names', 'url', 'm'])
                 pre.text-start.p-2 style="white-space: pre-wrap; word-wrap: break-word; max-height: 250px; overflow-y: auto;"
