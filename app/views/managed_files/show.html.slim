@@ -5,6 +5,9 @@
       .d-flex.gap-2
         = link_to "Volver a la lista", root_path, class: "btn btn-secondary"
         = form.submit "Guardar Cambios", class: "btn btn-primary"
+    
+    .text-center.my-4 
+      = link_to "Vicky", managed_file_chatbot_path(@managed_file), class: "btn btn-success btn-lg"
 
     .card.shadow-sm
       .card-body

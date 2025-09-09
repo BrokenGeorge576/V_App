@@ -1,0 +1,18 @@
+.container.py-5 data-controller="chatbot" data-chatbot-url-value=managed_file_chatbot_path(@managed_file) data-chatbot-document-text-value=@document_text
+
+  .d-flex.justify-content-between.align-items-center.mb-4
+    div
+      h1.mb-0 Conversando con:
+      p.lead.text-muted = @managed_file.name
+    = link_to "Volver al Archivo", managed_file_path(@managed_file), class: "btn btn-secondary"
+
+  .card.shadow-sm
+    .card-body(style="height: 70vh; display: flex; flex-direction: column;")
+      .chat-history.flex-grow-1.overflow-auto.p-3 data-chatbot-target="history"
+        .chat-message.bot-message.mb-2
+          | ¡Hola! Soy Vicky. Pregúntame lo que quieras sobre este documento.
+
+      .chat-input.p-3.border-top
+        = form_with url: "#", method: :post, class: "d-flex gap-2", data: { chatbot_target: "form" } do |form|
+          = form.text_field :question, class: "form-control", placeholder: "Haz una pregunta sobre el documento...", autocomplete: "off", data: { chatbot_target: "input" }
+          = form.submit "Enviar", class: "btn btn-primary"

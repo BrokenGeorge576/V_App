@@ -58,6 +58,14 @@ group :development do
 
   # Highlight the fine-grained location where an error occurred [https://github.com/ruby/error_highlight]
   gem "error_highlight", ">= 0.4.0", platforms: [ :ruby ]
+
+  gem "rubocop-rails-omakase", require: false
+
+  gem "rubocop", require: false
+  gem "rubocop-lsp", require: false
+  gem 'pdf-reader'
+  gem 'httparty', '~> 0.21'
+
 end
 
 group :test do

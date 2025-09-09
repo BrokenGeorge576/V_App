@@ -12,3 +12,29 @@
   font-size: 1.1rem; /* También puedes aumentar el tamaño de la fuente si lo deseas */
   vertical-align: middle; /* Ayuda a alinear el texto con la checkbox grande */
 }
+
+.chat-message {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.user-message {
+  background-color: #0d6efd;
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.bot-message {
+  background-color: #e9ecef;
+  color: #212529;
+  margin-right: auto;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.bot-message.thinking {
+  font-style: italic;
+  color: #6c757d;
+}
