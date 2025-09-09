@@ -52,3 +52,13 @@ html
             = form.submit "Filtrar", class: "btn btn-sm btn-outline-light"
 
     = yield
+
+    .position-fixed.bottom-0.start-0.p-3
+      = form_with url: scan_files_path, method: :post, multipart: true, id: "scan-form" do |form|
+        = form.file_field :files, multiple: true, class: "d-none", id: "file-scanner-input"
+        = label_tag "file-scanner-input", "Escanear Archivos", class: "btn btn-primary"
+
+    javascript:
+      document.getElementById('file-scanner-input').addEventListener('change', function() {
+        this.form.submit();
+      });

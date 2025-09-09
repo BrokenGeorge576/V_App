@@ -1,55 +1,70 @@
 import { Controller } from "@hotwired/stimulus"
-import * as pdfjsLib from "pdfjs-dist"
+import { getDocument, GlobalWorkerOptions } from "pdfjs-dist"
+
+// Esta URL debe coincidir con la que está en tu config/importmap.rb
+GlobalWorkerOptions.workerSrc = "https://ga.jspm.io/npm:pdfjs-dist@4.4.168/build/pdf.worker.mjs"
 
 export default class extends Controller {
-  static targets = ["canvas"]
-  static values = { url: String }
+  // Cambiamos el target de 'canvas' a 'container'
+  static targets = ["container"]
+  static values = {
+    url: String,
+  }
 
   connect() {
-    console.log("✅ PDF Viewer: Controlador Conectado.");
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.mjs`;
     this.loadPdf()
   }
 
   async loadPdf() {
-    console.log("⏳ PDF Viewer: Iniciando la carga del PDF...");
-    const url = this.urlValue
-    const canvas = this.canvasTarget
-
-    if (!canvas) {
-      console.error("❌ PDF Viewer: ¡Error Fatal! No se encontró el target 'canvas'.");
+    if (!this.hasUrlValue) {
       return;
     }
 
-    console.log("📄 PDF Viewer: Cargando desde la URL:", url);
-    const context = canvas.getContext('2d');
+    // Mostramos un indicador de carga
+    this.containerTarget.innerHTML = `<p class="text-muted p-5">Cargando PDF...</p>`
 
     try {
-      const pdf = await pdfjsLib.getDocument(url).promise;
-      console.log("📑 PDF Viewer: Documento cargado. Número de páginas:", pdf.numPages);
+      const pdf = await getDocument(this.urlValue).promise;
+      const numPages = pdf.numPages;
 
-      const page = await pdf.getPage(1);
-      console.log("📄 PDF Viewer: Página 1 obtenida.");
+      this.containerTarget.innerHTML = "" 
+      const containerWidth = this.element.clientWidth;
 
-      const viewport = page.getViewport({ scale: 1.5 });
-      console.log("🖼️ PDF Viewer: Viewport creado. Ajustando tamaño del canvas a:", viewport.width, "x", viewport.height);
+      for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        
+        // Calculamos la escala para que la página se ajuste al ancho del contenedor
+        const viewport = page.getViewport({ scale: 1 });
+        const scale = containerWidth / viewport.width;
+        const scaledViewport = page.getViewport({ scale: scale });
 
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
+        // Creamos un canvas para cada página
+        const canvas = document.createElement("canvas");
+        canvas.style.display = "block";
+        canvas.style.maxWidth = "100%"; 
+        canvas.style.height = "auto";
+        if (pageNum < numPages) {
+          canvas.style.marginBottom = "10px"; 
+        }
 
-      const renderContext = {
-        canvasContext: context,
-        viewport: viewport
-      };
+        const context = canvas.getContext('2d');
+        canvas.height = scaledViewport.height;
+        canvas.width = scaledViewport.width;
 
-      console.log("🎨 PDF Viewer: A punto de renderizar la página en el canvas...");
-      await page.render(renderContext).promise;
-      console.log("✅ PDF Viewer: ¡Página renderizada con éxito!");
+        // Añadimos el nuevo canvas al contenedor
+        this.containerTarget.appendChild(canvas);
+        
+        // Renderizamos la página
+        const renderContext = {
+          canvasContext: context,
+          viewport: scaledViewport
+        };
+        await page.render(renderContext).promise;
+      }
 
     } catch (error) {
-      console.error("❌ PDF Viewer: Ocurrió un error durante el proceso.", error);
-      context.fillStyle = "red";
-      context.fillText("Ocurrió un error al renderizar el PDF.", 10, 50);
+      console.error("PDF Viewer: Ocurrió un error al cargar el PDF.", error);
+      this.containerTarget.innerHTML = `<p class="text-danger p-5">Error al cargar el PDF.</p>`;
     }
   }
 }

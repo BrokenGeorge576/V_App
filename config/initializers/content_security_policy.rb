@@ -1,25 +1,26 @@
-# Be sure to restart your server when you modify this file.
+# config/initializers/content_security_policy.rb
 
-# Define an application-wide content security policy.
-# See the Securing Rails Applications Guide for more information:
-# https://guides.rubyonrails.org/security.html#content-security-policy-header
+Rails.application.configure do
+  config.content_security_policy do |policy|
+    policy.default_src :self, :https
+    policy.font_src    :self, :https, :data
+    policy.img_src     :self, :https, :data
+    policy.object_src  :none
+    
+    # AJUSTE: Añadimos "'unsafe-inline'" para permitir los estilos en línea
+    policy.style_src   :self, :https, "'unsafe-inline'"
 
-# Rails.application.configure do
-#   config.content_security_policy do |policy|
-#     policy.default_src :self, :https
-#     policy.font_src    :self, :https, :data
-#     policy.img_src     :self, :https, :data
-#     policy.object_src  :none
-#     policy.script_src  :self, :https
-#     policy.style_src   :self, :https
-#     # Specify URI for violation reports
-#     # policy.report_uri "/csp-violation-report-endpoint"
-#   end
-#
-#   # Generate session nonces for permitted importmap, inline scripts, and inline styles.
-#   config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
-#   config.content_security_policy_nonce_directives = %w(script-src style-src)
-#
-#   # Report violations without enforcing the policy.
-#   # config.content_security_policy_report_only = true
-# end
+    # AJUSTE: Añadimos "'unsafe-inline'" para permitir que importmap funcione
+    policy.script_src  :self, :https, "https://ga.jspm.io", "'unsafe-inline'"
+    
+    # Esto ya estaba bien, permite que el worker de pdf.js se cargue
+    policy.worker_src  :self, :blob
+
+    # Esto también estaba bien, permite la conexión al CDN
+    policy.connect_src :self, :https, "https://ga.jspm.io"
+  end
+
+  # Por ahora, podemos ignorar la generación de nonces
+  # config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
+  # config.content_security_policy_nonce_directives = %w(script-src style-src)
+end
