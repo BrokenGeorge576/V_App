@@ -11,7 +11,7 @@ class TextExtractorService
     case @managed_file.file_type
     when 'pdf'
       extract_from_pdf
-    when 'txt', 'md', 'rb', 'slim', 'js', 'scss', 'css', 'html', 'yml'
+    when 'txt', 'md', 'rb', 'slim', 'js', 'scss', 'css', 'html', 'yml','py'
       extract_from_text_file
     else
       "Lo sentimos, el chatbot aún no es compatible con archivos de tipo '#{@managed_file.file_type}'."

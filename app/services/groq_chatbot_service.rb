@@ -3,13 +3,11 @@ require 'httparty'
 
 class GroqChatbotService
   include HTTParty
-  # Cambiamos la URL base a la de Groq
   base_uri 'https://api.groq.com/openai'
 
   def initialize(document_text, question)
     @document_text = document_text
     @question = question
-    # Apuntamos a las nuevas credenciales de Groq
     @api_key = Rails.application.credentials.groq&.dig(:api_key)
   end
 
@@ -19,9 +17,11 @@ class GroqChatbotService
     end
 
     system_prompt = <<~PROMPT
-      Eres un asistente experto llamado Vicky. Tu única tarea es responder preguntas basándote exclusivamente en el siguiente texto de un documento.
-      No inventes información ni respondas usando conocimiento general. Si la respuesta no se encuentra en el texto, indica amablemente que la información no está disponible en el documento.
-      ---
+      Eres un asistente experto llamado Vicky. Tu única tarea es responder preguntas basándote exclusivamente en el siguiente texto de un documento. Intenta buscar en otros
+      lugares si es necesario la informacion, para que tu respuesta sea la mejor posible.
+      Quiero que intentes ser siempre cordial con el usuario y amable, para que no se sienta mal de no saber las cosas, lo que el usuario te pregunte sobre el documento
+      investiga a fondo, intenta organizar tus respuestas en parrafos, sin usar emojis u otras cosas que afecten la visualizacion,usa solo texto y lo unico permitido que puedes
+      usar son caritas de este tipo ":)" este es un ejemplo, intenta tener la actitud de una amiga adolescente
       CONTENIDO DEL DOCUMENTO:
       #{@document_text}
       ---
@@ -33,8 +33,7 @@ class GroqChatbotService
         "Content-Type" => "application/json"
       },
       body: {
-        # Usamos un modelo disponible en Groq (Llama 3 es excelente)
-        model: "llama-3.1-8b-instant",
+        model: "llama-3.3-70b-versatile",
         messages: [
           { role: "system", content: system_prompt },
           { role: "user", content: @question }
