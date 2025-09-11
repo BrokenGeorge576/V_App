@@ -2,7 +2,7 @@
 
 Vicky es una aplicación web construida con Ruby on Rails 7 que reinventa la gestión de archivos personales. No solo te permite organizar y visualizar tus documentos, sino que ahora puedes **"chatear" con ellos**. Gracias a su chatbot integrado con IA, puedes hacer preguntas, pedir resúmenes y extraer información clave de tus archivos de forma conversacional.
 
-[![Mira el video](https://raw.githubusercontent.com/BrokenGeorge576/V_App/main/VApp.png)](https://github.com/BrokenGeorge576/V_App/main/V_App1_0.mp4)
+[![Mira el video](https://raw.githubusercontent.com/BrokenGeorge576/V_App/main/VApp.png)](https://www.youtube.com/watch?v=eh_c-xCc5kQ)
 
 ## ✨ Características Principales
 
