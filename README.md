@@ -1,7 +1,7 @@
 ![](https://github.com/BrokenGeorge576/V_App/blob/main/Animation%20Sticker%20GIF%20by%20The%20Ethereans.gif) 
 
 
-# Vicky: Tu Gestor de Archivos Inteligente con IA
+# Vicky 1.0: Tu Gestor de Archivos Inteligente con IA
 
 Vicky es una aplicación web construida con Ruby on Rails 7 que reinventa la gestión de archivos personales. No solo te permite organizar y visualizar tus documentos, sino que ahora puedes **"chatear" con ellos**. Gracias a su chatbot integrado con IA, puedes hacer preguntas, pedir resúmenes y extraer información clave de tus archivos de forma conversacional.
 
