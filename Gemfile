@@ -64,7 +64,7 @@ group :development do
   gem "rubocop", require: false
   gem "rubocop-lsp", require: false
   gem 'pdf-reader'
-  gem 'httparty', '~> 0.21'
+  gem 'httparty', '~> 0.24'
 
 end
 
